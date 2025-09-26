@@ -11,9 +11,6 @@
         StockManager
     </a>
 
-    <!-- Favicon -->
-    <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
-    <link rel="shortcut icon" href="{{ asset('logo.png') }}" type="image/png">
 
 
     <!-- Bootstrap 5 CSS -->
@@ -24,6 +21,8 @@
 
     <!-- Vos styles personnalisés -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" href="{{ asset('logo.png') }}?v={{ time() }}" type="image/png">
+
 </head>
 
 <body>
