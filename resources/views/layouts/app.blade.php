@@ -11,6 +11,11 @@
         StockManager
     </a>
 
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('logo.png') }}" type="image/png">
+
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
