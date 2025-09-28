@@ -62,8 +62,8 @@
                     </td>
                     <td>{{ $rea->produit->category ?? '—' }}</td>
                     <td>{{ $rea->quantity }}</td>
-                    <td>{{ $rea->prix_achat_unitaire ?? '—' }} €</td>
-                    <td>{{ $rea->valeur_totale ?? '—' }} €</td>
+                    <td>{{ $rea->prix_achat_unitaire ?? '—' }} CFA</td>
+                    <td>{{ $rea->valeur_totale ?? '—' }} CFA</td>
                     <td>{{ $rea->date_reapprovisionnement ? \Carbon\Carbon::parse($rea->date_reapprovisionnement)->format('d/m/Y') : '—' }}</td>
                     <td>
                         <a href="{{ route('reapprovisionnements.show', $rea) }}" class="btn btn-info btn-sm">Voir</a>

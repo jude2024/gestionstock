@@ -25,7 +25,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Montant (€)</label>
+            <label class="form-label">Montant (CFA)</label>
             <input type="number" step="0.01" name="montant" class="form-control" value="{{ old('montant') }}" required>
         </div>
 

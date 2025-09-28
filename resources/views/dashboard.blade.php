@@ -20,7 +20,7 @@
             <div class="card shadow-sm text-white bg-success h-100">
                 <div class="card-body text-center">
                     <h6 class="card-title">Valeur du Stock</h6>
-                    <h3 class="card-text">{{ number_format($valeurStock, 2, ',', ' ') }} €</h3>
+                    <h3 class="card-text">{{ number_format($valeurStock, 2, ',', ' ') }} CFA</h3>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="card shadow-sm text-white bg-warning h-100">
                 <div class="card-body text-center">
                     <h6 class="card-title">Ventes du jour</h6>
-                    <h3 class="card-text">{{ number_format($ventesDuJour, 2, ',', ' ') }} €</h3>
+                    <h3 class="card-text">{{ number_format($ventesDuJour, 2, ',', ' ') }} CFA</h3>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="card shadow-sm text-white bg-danger h-100">
                 <div class="card-body text-center">
                     <h6 class="card-title">Bénéfice du jour</h6>
-                    <h3 class="card-text">{{ number_format($beneficeDuJour, 2, ',', ' ') }} €</h3>
+                    <h3 class="card-text">{{ number_format($beneficeDuJour, 2, ',', ' ') }} CFA</h3>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                             <th>Date</th>
                             <th>Produit</th>
                             <th>Qté</th>
-                            <th>Total (€)</th>
+                            <th>Total (CFA)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +83,7 @@
                             <th>Date</th>
                             <th>Produit</th>
                             <th>Qté</th>
-                            <th>Valeur (€)</th>
+                            <th>Valeur (CFA)</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -79,8 +79,8 @@
                     @endif
                 </td>
                 <td>{{ $stock->quantity }}</td>
-                <td>{{ $stock->prix_achat_unitaire ?? '—' }} €</td>
-                <td>{{ $stock->valeur_totale ?? '—' }} €</td>
+                <td>{{ $stock->prix_achat_unitaire ?? '—' }} CFA</td>
+                <td>{{ $stock->valeur_totale ?? '—' }} CFA</td>
                 <td>
                     <a href="{{ route('stock_initials.show', $stock) }}" class="btn btn-info btn-sm">Voir</a>
                     <a href="{{ route('stock_initials.edit', $stock) }}" class="btn btn-warning btn-sm">Modifier</a>

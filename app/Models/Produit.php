@@ -12,11 +12,13 @@ class Produit extends Model
     protected $fillable = [
         'name',
         'reference',
-        'quantity_in_stock',
         'category',
+        'quantity_in_stock',
         'description',
         'unit_price',
         'seller_price',
+        'lot_price',
+        'units_per_lot',
         'alert_seuil',
         'image_path',
     ];
@@ -34,5 +36,4 @@ class Produit extends Model
     {
         return $this->hasMany(Avarie::class);
     }
-    
 }

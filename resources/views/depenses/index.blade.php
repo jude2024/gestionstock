@@ -37,7 +37,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>Description</th>
-                    <th>Montant (€)</th>
+                    <th>Montant (CFA)</th>
                     <th>Date</th>
                     <th>Actions</th>
                 </tr>

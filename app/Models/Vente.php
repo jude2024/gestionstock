@@ -13,13 +13,14 @@ class Vente extends Model
         'prix_vente_unitaire',
         'valeur_totale',
         'date_vente',
+        'type_vente', 
     ];
 
     // Convertit date_vente en Carbon automatiquement
     protected $casts = [
         'date_vente' => 'datetime',
     ];
-
+ 
     public function produit()
     {
         return $this->belongsTo(Produit::class);

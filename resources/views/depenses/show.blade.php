@@ -10,7 +10,7 @@
         </div>
         <div class="card-body text-center">
             <p><strong>Description :</strong> {{ $depense->description ?? '—' }}</p>
-            <p><strong>Montant :</strong> {{ $depense->montant ?? '—' }} €</p>
+            <p><strong>Montant :</strong> {{ $depense->montant ?? '—' }} CFA</p>
             <p><strong>Date :</strong> {{ $depense->date_depense ? $depense->date_depense->format('d/m/Y') : '—' }}</p>
         </div>
         <div class="card-footer text-center">

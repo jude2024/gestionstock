@@ -29,24 +29,14 @@
 
                     {{-- Informations produit --}}
                     <div class="row text-start justify-content-center">
-                        <div class="col-md-6 mb-2">
-                            <strong>Référence :</strong> {{ $produit->reference ?? '—' }}
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Stock :</strong> {{ $produit->quantity_in_stock ?? '—' }}
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Prix unitaire :</strong> {{ $produit->unit_price ?? '—' }} €
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Prix de vente :</strong> {{ $produit->seller_price ?? '—' }} €
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Seuil d’alerte :</strong> {{ $produit->alert_seuil ?? '—' }}
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Catégorie :</strong> {{ $produit->category ?? '—' }}
-                        </div>
+                        <div class="col-md-6 mb-2"><strong>Référence :</strong> {{ $produit->reference ?? '—' }}</div>
+                        <div class="col-md-6 mb-2"><strong>Stock :</strong> {{ $produit->quantity_in_stock ?? '—' }}</div>
+                        <div class="col-md-6 mb-2"><strong>Prix unitaire :</strong> {{ $produit->unit_price ?? '—' }} CFA</div>
+                        <div class="col-md-6 mb-2"><strong>Prix de vente :</strong> {{ $produit->seller_price ?? '—' }} CFA</div>
+                        <div class="col-md-6 mb-2"><strong>Prix par lot :</strong> {{ $produit->lot_price ?? '—' }} CFA</div>
+                        <div class="col-md-6 mb-2"><strong>Unités par lot :</strong> {{ $produit->units_per_lot ?? '—' }}</div>
+                        <div class="col-md-6 mb-2"><strong>Seuil d’alerte :</strong> {{ $produit->alert_seuil ?? '—' }}</div>
+                        <div class="col-md-6 mb-2"><strong>Catégorie :</strong> {{ $produit->category ?? '—' }}</div>
                         <div class="col-12 mt-3">
                             <strong>Description :</strong>
                             <p class="border rounded p-3 bg-light">{{ $produit->description ?? 'Aucune description' }}</p>
@@ -57,6 +47,7 @@
                     <a href="{{ route('produits.index') }}" class="btn btn-primary mt-3">
                         <i class="bi bi-arrow-left-circle"></i> Retour à la liste
                     </a>
+
                 </div>
             </div>
 

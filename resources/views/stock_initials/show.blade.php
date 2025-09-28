@@ -15,8 +15,8 @@
         <div class="col-md-6">
             <ul class="list-group text-start">
                 <li class="list-group-item"><strong>Quantité :</strong> {{ $stockInitial->quantity }}</li>
-                <li class="list-group-item"><strong>Prix Achat Unitaire :</strong> {{ $stockInitial->prix_achat_unitaire ?? '—' }} €</li>
-                <li class="list-group-item"><strong>Valeur Totale :</strong> {{ $stockInitial->valeur_totale ?? '—' }} €</li>
+                <li class="list-group-item"><strong>Prix Achat Unitaire :</strong> {{ $stockInitial->prix_achat_unitaire ?? '—' }} CFA</li>
+                <li class="list-group-item"><strong>Valeur Totale :</strong> {{ $stockInitial->valeur_totale ?? '—' }} CFA</li>
             </ul>
         </div>
     </div>

@@ -13,15 +13,31 @@ return new class extends Migration
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); 
-            $table->string('reference')->unique()->nullable(); 
+            $table->string('name');
+            $table->string('reference')->unique()->nullable();
             $table->string('category')->nullable();
-            // quantity in stock
+
+            // quantité totale en unité
             $table->integer('quantity_in_stock')->default(0);
-            $table->text('description')->nullable(); 
+
+            // description
+            $table->text('description')->nullable();
+
+            // prix d'achat unitaire (pour marge)
             $table->decimal('unit_price', 10, 2)->nullable();
+
+            // prix de vente au détail (par unité)
             $table->decimal('seller_price', 10, 2)->nullable();
+
+            // prix de vente par lot (carton)
+            $table->decimal('lot_price', 10, 2)->nullable();
+
+            // nombre d’unités par lot (conversion)
+            $table->integer('units_per_lot')->default(1);
+
+            // seuil d’alerte
             $table->integer('alert_seuil')->default(0)->nullable();
+
             $table->string('image_path')->nullable();
             $table->timestamps();
         });

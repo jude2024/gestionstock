@@ -15,7 +15,6 @@
     <!-- Vos styles personnalisés -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" href="{{ asset('logo.png') }}?v={{ time() }}" type="image/png">
-
 </head>
 
 <body>
@@ -29,7 +28,8 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <!-- Liens -->
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
@@ -58,10 +58,37 @@
                         <a class="nav-link text-white" href="{{ route('vente.recap') }}">Récap Ventes</a>
                     </li>
                 </ul>
+
+                <!-- Utilisateur -->
+                <ul class="navbar-nav ms-auto">
+                    @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user-circle me-1"></i> {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fa fa-sign-out-alt me-1"></i> Déconnexion
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('login.form') }}">
+                            <i class="fa fa-sign-in-alt me-1"></i> Connexion
+                        </a>
+                    </li>
+                    @endauth
+                </ul>
             </div>
         </div>
     </nav>
-
 
     <!-- Contenu principal -->
     <main class="py-4">
@@ -75,8 +102,6 @@
 
     <!-- Bootstrap 5 JS et dépendances -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Vos scripts personnalisés -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 

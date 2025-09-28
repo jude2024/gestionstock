@@ -16,8 +16,8 @@
 
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Quantité vendue :</strong> {{ $vente->quantite_vendue }}</li>
-            <li class="list-group-item"><strong>Prix unitaire :</strong> {{ number_format($vente->prix_vente_unitaire, 2) }} €</li>
-            <li class="list-group-item"><strong>Valeur totale :</strong> {{ number_format($vente->valeur_totale, 2) }} €</li>
+            <li class="list-group-item"><strong>Prix unitaire :</strong> {{ number_format($vente->prix_vente_unitaire, 2) }} CFA</li>
+            <li class="list-group-item"><strong>Valeur totale :</strong> {{ number_format($vente->valeur_totale, 2) }} CFA</li>
             <li class="list-group-item"><strong>Date de vente :</strong> {{ $vente->date_vente->format('d/m/Y') }}</li>
         </ul>
 

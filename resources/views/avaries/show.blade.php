@@ -19,7 +19,7 @@
             <h5 class="card-title mb-2">{{ $avarie->produit->name ?? '—' }}</h5>
             <p><strong>Catégorie :</strong> {{ $avarie->produit->category ?? '—' }}</p>
             <p><strong>Quantité Avariée :</strong> {{ $avarie->quantite_avariee ?? '—' }}</p>
-            <p><strong>Montant :</strong> {{ $avarie->montant ?? '—' }} €</p>
+            <p><strong>Montant :</strong> {{ $avarie->montant ?? '—' }} CFA</p>
             <p><strong>Raison :</strong> {{ $avarie->raison ?? '—' }}</p>
             <p><strong>Date de l’Avarie :</strong> {{ $avarie->date_avarie ? \Carbon\Carbon::parse($avarie->date_avarie)->format('d/m/Y') : '—' }}</p>
 

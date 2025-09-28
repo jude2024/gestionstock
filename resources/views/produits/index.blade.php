@@ -49,8 +49,10 @@
                     <th>Catégorie</th>
                     <th>Référence</th>
                     <th>Stock</th>
-                    <th>Prix Unitaire</th>
+                    <th>Prix Achat</th>
                     <th>Prix Vente</th>
+                    <th>Prix Lot</th>
+                    <th>Unités/Lot</th>
                     <th>Seuil Alerte</th>
                     <th>Actions</th>
                 </tr>
@@ -77,8 +79,10 @@
                             <span class="badge bg-success">{{ $produit->quantity_in_stock }}</span>
                             @endif
                     </td>
-                    <td>{{ number_format($produit->unit_price, 2, ',', ' ') }} €</td>
-                    <td>{{ number_format($produit->seller_price, 2, ',', ' ') }} €</td>
+                    <td>{{ number_format($produit->unit_price, 2, ',', ' ') }} CFA</td>
+                    <td>{{ number_format($produit->seller_price, 2, ',', ' ') }} CFA</td>
+                    <td>{{ number_format($produit->lot_price, 2, ',', ' ') }} CFA</td>
+                    <td>{{ $produit->units_per_lot }}</td>
                     <td>{{ $produit->alert_seuil ?? '-' }}</td>
                     <td class="text-center">
                         <a href="{{ route('produits.show', $produit) }}" class="btn btn-info btn-sm mb-1">
@@ -98,7 +102,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="9" class="text-center">Aucun produit trouvé</td>
+                    <td colspan="12" class="text-center">Aucun produit trouvé</td>
                 </tr>
                 @endforelse
             </tbody>

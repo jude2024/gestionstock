@@ -63,7 +63,7 @@
                         @endif
                     </td>
                     <td>{{ $avarie->quantite_avariee }}</td>
-                    <td>{{ number_format($avarie->montant, 2) }} €</td>
+                    <td>{{ number_format($avarie->montant, 2) }} CFA</td>
                     <td>{{ $avarie->raison ?? '—' }}</td>
                     <td>{{ $avarie->date_avarie ? \Carbon\Carbon::parse($avarie->date_avarie)->format('d/m/Y') : '—' }}</td>
                     <td>

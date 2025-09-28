@@ -14,50 +14,50 @@ use App\Http\Controllers\Controller;
 
 class ResumeController extends Controller
 {
+    /**
+     * Tableau de bord résumé des produits et finances
+     */
     public function index(Request $request)
     {
-        $today = \Carbon\Carbon::today();
-        $startOfMonth = \Carbon\Carbon::now()->startOfMonth();
-        $endOfMonth = \Carbon\Carbon::now()->endOfMonth();
-        $startOfYear = \Carbon\Carbon::now()->startOfYear();
-        $endOfYear = \Carbon\Carbon::now()->endOfYear();
-
         // ---------------------------
-        // Inventaire produits avec filtre
+        // Filtrage des produits
         // ---------------------------
         $query = Produit::query();
 
-        // Recherche par nom
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        // Filtre par catégorie
         if ($request->filled('categorie')) {
             $query->where('category', $request->categorie);
         }
 
-        // Pagination
         $produits = $query->orderBy('name')->paginate(10)->withQueryString();
-
-        // Récupérer toutes les catégories pour le filtre
         $categories = Produit::select('category')->distinct()->pluck('category');
 
         // ---------------------------
         // Statistiques globales
         // ---------------------------
-        $total_ventes = \App\Models\Vente::sum(DB::raw('quantite_vendue * prix_vente_unitaire'));
-        $total_depenses = \App\Models\Depense::sum('montant');
-        $total_avaries = \App\Models\Avarie::sum('montant');
+        // Total ventes : somme de quantite * prix unitaire
+        $total_ventes = Vente::sum(DB::raw('quantite_vendue * prix_vente_unitaire'));
+
+        // Total dépenses et avaries
+        $total_depenses = Depense::sum('montant');
+        $total_avaries = Avarie::sum('montant');
+
+        // Bénéfice brut
         $benefice_brut = $total_ventes - $total_depenses - $total_avaries;
 
         // ---------------------------
-        // Valeur des produits
+        // Valeur des produits en stock
         // ---------------------------
         $inventaire = $produits->map(function ($produit) {
-            $stock_actuel = $produit->quantity_in_stock;
+            $stock_actuel = $produit->quantity_in_stock ?? 0;
+
+            // Utiliser prix unitaire d'achat pour valeur d'achat et prix de vente pour valeur de vente
             $valeur_achat = $stock_actuel * ($produit->unit_price ?? 0);
             $valeur_vente = $stock_actuel * ($produit->seller_price ?? 0);
+
             return [
                 'produit' => $produit,
                 'stock_actuel' => $stock_actuel,
@@ -77,9 +77,12 @@ class ResumeController extends Controller
         ));
     }
 
+    /**
+     * Récapitulatif des ventes avec filtres par date
+     */
     public function recap(Request $request)
     {
-        $query = \App\Models\Vente::with('produit');
+        $query = Vente::with('produit');
 
         // Filtre par date unique
         if ($request->filled('date')) {
@@ -91,11 +94,11 @@ class ResumeController extends Controller
             $query->whereBetween('date_vente', [$request->date_start, $request->date_end]);
         }
 
+        // Cloner la requête pour le total avant pagination
+        $total_ventes = (clone $query)->sum(DB::raw('quantite_vendue * prix_vente_unitaire'));
+
         // Pagination
         $ventes = $query->orderBy('date_vente', 'desc')->paginate(10)->withQueryString();
-
-        // Total des ventes sur la période
-        $total_ventes = $query->sum(DB::raw('quantite_vendue * prix_vente_unitaire'));
 
         return view('ventes.recap', compact('ventes', 'total_ventes'));
     }

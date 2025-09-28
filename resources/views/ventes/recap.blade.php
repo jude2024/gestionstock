@@ -8,8 +8,6 @@
 
     {{-- Formulaire de filtre --}}
     <form method="GET" action="{{ route('vente.recap') }}" class="row g-3 mb-4">
-
-        {{-- Choix du type de filtre --}}
         <div class="col-md-3">
             <label for="filter_type" class="form-label">Type de filtre</label>
             <select id="filter_type" class="form-select" name="filter_type">
@@ -21,60 +19,46 @@
         {{-- Date exacte --}}
         <div class="col-md-3 filter-date">
             <label for="date" class="form-label">Date exacte</label>
-            <input
-                type="date"
-                id="date"
-                name="date"
-                class="form-control"
-                value="{{ request('date') }}">
+            <input type="date" id="date" name="date" class="form-control" value="{{ request('date') }}">
         </div>
 
         {{-- Intervalle de dates --}}
         <div class="col-md-3 filter-interval">
             <label for="date_start" class="form-label">Date début</label>
-            <input
-                type="date"
-                id="date_start"
-                name="date_start"
-                class="form-control"
-                value="{{ request('date_start') }}">
+            <input type="date" id="date_start" name="date_start" class="form-control" value="{{ request('date_start') }}">
         </div>
 
         <div class="col-md-3 filter-interval">
             <label for="date_end" class="form-label">Date fin</label>
-            <input
-                type="date"
-                id="date_end"
-                name="date_end"
-                class="form-control"
-                value="{{ request('date_end') }}">
+            <input type="date" id="date_end" name="date_end" class="form-control" value="{{ request('date_end') }}">
         </div>
 
-        {{-- Boutons --}}
         <div class="col-md-3 d-flex align-items-end gap-2">
             <button type="submit" class="btn btn-primary w-100">Filtrer</button>
             <a href="{{ route('vente.recap') }}" class="btn btn-secondary w-100">Réinitialiser</a>
         </div>
     </form>
 
-
     {{-- Tableau des ventes --}}
     <div class="table-responsive">
-        <table class="table table-hover table-bordered align-middle text-center">
+        <table class="table table-hover table-bordered text-center align-middle">
             <thead class="table-dark">
                 <tr>
                     <th>Produit</th>
+                    <th>Catégorie</th>
                     <th>Image</th>
-                    <th>Quantité vendue</th>
-                    <th>Prix unitaire (€)</th>
-                    <th>Total (€)</th>
-                    <th>Date Vente</th>
+                    <th>Quantité</th>
+                    <th>Type de vente</th>
+                    <th>Prix unitaire (CFA)</th>
+                    <th>Valeur totale (CFA)</th>
+                    <th>Date vente</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($ventes as $vente)
                 <tr>
                     <td>{{ $vente->produit->name ?? '—' }}</td>
+                    <td>{{ $vente->produit->category ?? '—' }}</td>
                     <td>
                         @if($vente->produit && $vente->produit->image_path)
                         <img src="{{ asset('storage/' . $vente->produit->image_path) }}" alt="{{ $vente->produit->name }}" style="width:60px; height:60px; object-fit:cover;">
@@ -83,28 +67,29 @@
                         @endif
                     </td>
                     <td>{{ $vente->quantite_vendue }}</td>
+                    <td>{{ ucfirst($vente->type_vente) }}</td>
                     <td>{{ number_format($vente->prix_vente_unitaire, 2, ',', ' ') }}</td>
-                    <td>{{ number_format($vente->quantite_vendue * $vente->prix_vente_unitaire, 2, ',', ' ') }}</td>
+                    <td>{{ number_format($vente->valeur_totale, 2, ',', ' ') }}</td>
                     <td>{{ \Carbon\Carbon::parse($vente->date_vente)->format('d/m/Y') }}</td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center">Aucune vente trouvée pour cette période.</td>
+                    <td colspan="8" class="text-center">Aucune vente trouvée pour cette période.</td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
+
+        <div class="mt-3 text-end">
+            <h5>Total des ventes : {{ number_format($total_ventes, 2, ',', ' ') }} CFA</h5>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            {{ $ventes->links('pagination::bootstrap-5') }}
+        </div>
+
     </div>
 
-    {{-- Total --}}
-    <div class="mt-3 text-end">
-        <h5>Total des ventes : {{ number_format($total_ventes, 2, ',', ' ') }} €</h5>
-    </div>
-
-    {{-- Pagination --}}
-    <div class="d-flex justify-content-center mt-3">
-        {{ $ventes->links('pagination::bootstrap-5') }}
-    </div>
 
 </div>
 

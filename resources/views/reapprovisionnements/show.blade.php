@@ -20,8 +20,8 @@
 
             <p class="mb-1"><strong>Catégorie :</strong> {{ $reapprovisionnement->produit->category ?? '—' }}</p>
             <p class="mb-1"><strong>Quantité :</strong> {{ $reapprovisionnement->quantity }}</p>
-            <p class="mb-1"><strong>Prix Achat Unitaire :</strong> {{ $reapprovisionnement->prix_achat_unitaire ?? '—' }} €</p>
-            <p class="mb-1"><strong>Valeur Totale :</strong> {{ $reapprovisionnement->valeur_totale ?? '—' }} €</p>
+            <p class="mb-1"><strong>Prix Achat Unitaire :</strong> {{ $reapprovisionnement->prix_achat_unitaire ?? '—' }} CFA</p>
+            <p class="mb-1"><strong>Valeur Totale :</strong> {{ $reapprovisionnement->valeur_totale ?? '—' }} CFA</p>
             <p class="mb-1"><strong>Date Réapprovisionnement :</strong> {{ $reapprovisionnement->date_reapprovisionnement ? \Carbon\Carbon::parse($reapprovisionnement->date_reapprovisionnement)->format('d/m/Y') : '—' }}</p>
         </div>
         <div class="card-footer text-center">

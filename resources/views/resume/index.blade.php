@@ -36,7 +36,7 @@
             <div class="card text-center bg-success text-white">
                 <div class="card-body">
                     <h5>Total Ventes</h5>
-                    <p>{{ number_format($total_ventes, 2) }} €</p>
+                    <p>{{ number_format($total_ventes, 2) }} CFA</p>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
             <div class="card text-center bg-danger text-white">
                 <div class="card-body">
                     <h5>Total Dépenses</h5>
-                    <p>{{ number_format($total_depenses, 2) }} €</p>
+                    <p>{{ number_format($total_depenses, 2) }} CFA</p>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
             <div class="card text-center bg-warning text-white">
                 <div class="card-body">
                     <h5>Total Avaries</h5>
-                    <p>{{ number_format($total_avaries, 2) }} €</p>
+                    <p>{{ number_format($total_avaries, 2) }} CFA</p>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
             <div class="card text-center bg-primary text-white">
                 <div class="card-body">
                     <h5>Bénéfice Brut</h5>
-                    <p>{{ number_format($benefice_brut, 2) }} €</p>
+                    <p>{{ number_format($benefice_brut, 2) }} CFA</p>
                 </div>
             </div>
         </div>
@@ -94,8 +94,8 @@
                     <td>{{ $item['produit']->name }}</td>
                     <td>{{ $item['produit']->category ?? '—' }}</td>
                     <td>{{ $item['stock_actuel'] }}</td>
-                    <td>{{ number_format($item['valeur_achat'], 2, ',', ' ') }} €</td>
-                    <td>{{ number_format($item['valeur_vente'], 2, ',', ' ') }} €</td>
+                    <td>{{ number_format($item['valeur_achat'], 2, ',', ' ') }} CFA</td>
+                    <td>{{ number_format($item['valeur_vente'], 2, ',', ' ') }} CFA</td>
                 </tr>
                 @endforeach
             </tbody>

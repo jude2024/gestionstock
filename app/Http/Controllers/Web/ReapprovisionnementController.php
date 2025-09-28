@@ -145,6 +145,7 @@ class ReapprovisionnementController extends Controller
      */
     public function destroy(Reapprovisionnement $reapprovisionnement)
     {
+        $reapprovisionnement->produit->decrement('quantity_in_stock', $reapprovisionnement->quantity);
         $reapprovisionnement->delete();
         return redirect()->route('reapprovisionnements.index')
             ->with('success', 'Réapprovisionnement supprimé.');
