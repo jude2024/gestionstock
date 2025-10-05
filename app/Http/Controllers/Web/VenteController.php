@@ -61,26 +61,36 @@ class VenteController extends Controller
         $request->validate([
             'produit_id' => 'required|exists:produits,id',
             'quantite_vendue' => 'required|integer|min:1',
-            'prix_vente_unitaire' => 'required|numeric|min:0',
             'type_vente' => 'required|in:unite,lot',
             'date_vente' => 'required|date',
         ]);
 
         $produit = Produit::findOrFail($request->produit_id);
 
-        $quantite_stock_reelle = $request->quantite_vendue;
+        // Détermination de la quantité réelle (en unités)
         if ($request->type_vente === 'lot') {
-            // Si vente par lot, retirer le nombre d’unités correspondant
             $quantite_stock_reelle = $request->quantite_vendue * $produit->units_per_lot;
+            $prix_unitaire = $produit->lot_price; // prix par lot
+        } else {
+            $quantite_stock_reelle = $request->quantite_vendue;
+            $prix_unitaire = $produit->seller_price; // prix par unité
         }
 
-        $valeur_totale = $request->quantite_vendue * $request->prix_vente_unitaire;
+        // Vérifier le stock disponible
+        if ($produit->quantity_in_stock < $quantite_stock_reelle) {
+            return redirect()->back()->with('error', 'Stock insuffisant pour cette vente.');
+        }
 
+        // Valeur totale
+        $valeur_totale = $request->quantite_vendue * $prix_unitaire;
+
+        // Enregistrer la vente
         $vente = Vente::create([
             'produit_id' => $request->produit_id,
-            'quantite_vendue' => $request->quantite_vendue,
+            'quantite_vendue' => $request->quantite_vendue, // quantité vendue brute (ex: 2 lots OU 5 unités)
+            'quantite_en_unites' => $quantite_stock_reelle, // ajout utile : stock réel retiré
             'type_vente' => $request->type_vente,
-            'prix_vente_unitaire' => $request->prix_vente_unitaire,
+            'prix_vente_unitaire' => $prix_unitaire,
             'valeur_totale' => $valeur_totale,
             'date_vente' => $request->date_vente,
         ]);
@@ -88,8 +98,9 @@ class VenteController extends Controller
         // Décrémenter le stock
         $produit->decrement('quantity_in_stock', $quantite_stock_reelle);
 
-        return redirect()->route('ventes.index')->with('success', 'Vente enregistrée.');
+        return redirect()->route('ventes.index')->with('success', 'Vente enregistrée avec succès.');
     }
+
 
     public function show(Vente $vente)
     {

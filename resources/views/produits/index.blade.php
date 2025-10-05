@@ -85,19 +85,44 @@
                     <td>{{ $produit->units_per_lot }}</td>
                     <td>{{ $produit->alert_seuil ?? '-' }}</td>
                     <td class="text-center">
-                        <a href="{{ route('produits.show', $produit) }}" class="btn btn-info btn-sm mb-1">
-                            <i class="bi bi-eye"></i> Voir
-                        </a>
-                        <a href="{{ route('produits.edit', $produit) }}" class="btn btn-warning btn-sm mb-1">
-                            <i class="bi bi-pencil-square"></i> Modifier
-                        </a>
-                        <form action="{{ route('produits.destroy', $produit) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm mb-1" onclick="return confirm('Supprimer ce produit ?')">
+                        <div class="d-flex flex-column align-items-center gap-2">
+                            <a href="{{ route('produits.show', $produit) }}" class="btn btn-info btn-sm w-100">
+                                <i class="bi bi-eye"></i> Voir
+                            </a>
+                            <a href="{{ route('produits.edit', $produit) }}" class="btn btn-warning btn-sm w-100">
+                                <i class="bi bi-pencil-square"></i> Modifier
+                            </a>
+                            <!-- Bouton qui ouvre le modal -->
+                            <button type="button" class="btn btn-danger btn-sm w-100"
+                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $produit->id }}">
                                 <i class="bi bi-trash"></i> Supprimer
                             </button>
-                        </form>
+                        </div>
+
+                        <!-- Modal confirmation suppression -->
+                        <div class="modal fade" id="deleteModal{{ $produit->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $produit->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title" id="deleteModalLabel{{ $produit->id }}">
+                                            <i class="bi bi-exclamation-triangle"></i> Confirmation
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Voulez-vous vraiment supprimer <strong>{{ $produit->name }}</strong> ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <form action="{{ route('produits.destroy', $produit) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger">Oui, supprimer</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @empty

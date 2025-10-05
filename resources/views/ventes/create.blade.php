@@ -33,18 +33,22 @@
     </form>
 
     {{-- Formulaire d'ajout de vente --}}
+    {{-- Formulaire d'ajout de vente --}}
     <form action="{{ route('ventes.store') }}" method="POST" id="form-vente">
         @csrf
 
         <div class="row g-3">
+            {{-- Produit --}}
             <div class="col-md-6">
                 <label class="form-label">Produit</label>
-                <select name="produit_id" id="produit_id" class="form-select @error('produit_id') is-invalid @enderror">
+                <select name="produit_id" id="produit_id"
+                    class="form-select @error('produit_id') is-invalid @enderror">
                     <option value="">-- Sélectionner un produit --</option>
                     @foreach($produits as $produit)
                     <option value="{{ $produit->id }}"
                         data-units-per-lot="{{ $produit->units_per_lot ?? 1 }}"
-                        data-unit-price="{{ $produit->unit_price }}"
+                        data-seller-price="{{ $produit->seller_price ?? 0 }}"
+                        data-lot-price="{{ $produit->lot_price ?? 0 }}"
                         {{ old('produit_id') == $produit->id ? 'selected' : '' }}>
                         {{ $produit->name }} ({{ $produit->category ?? '—' }})
                     </option>
@@ -55,9 +59,11 @@
                 @enderror
             </div>
 
+            {{-- Type de vente --}}
             <div class="col-md-6">
                 <label class="form-label">Type de vente</label>
-                <select name="type_vente" id="type_vente" class="form-select @error('type_vente') is-invalid @enderror">
+                <select name="type_vente" id="type_vente"
+                    class="form-select @error('type_vente') is-invalid @enderror">
                     <option value="unite" {{ old('type_vente') == 'unite' ? 'selected' : '' }}>Unité</option>
                     <option value="lot" {{ old('type_vente') == 'lot' ? 'selected' : '' }}>Lot</option>
                 </select>
@@ -66,6 +72,7 @@
                 @enderror
             </div>
 
+            {{-- Quantité --}}
             <div class="col-md-4">
                 <label class="form-label">Quantité vendue</label>
                 <input type="number" name="quantite_vendue" id="quantite_vendue"
@@ -76,32 +83,36 @@
                 @enderror
             </div>
 
+            {{-- Prix unitaire (rempli auto, readonly) --}}
             <div class="col-md-4">
                 <label class="form-label">Prix unitaire</label>
                 <input type="number" step="0.01" name="prix_vente_unitaire" id="prix_vente_unitaire"
                     class="form-control @error('prix_vente_unitaire') is-invalid @enderror"
-                    value="{{ old('prix_vente_unitaire') }}">
+                    value="{{ old('prix_vente_unitaire') }}" readonly>
                 @error('prix_vente_unitaire')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- Valeur totale --}}
             <div class="col-md-4">
                 <label class="form-label">Valeur totale</label>
                 <input type="text" id="valeur_totale" class="form-control" readonly value="0">
             </div>
 
+            {{-- Date --}}
             <div class="col-md-6">
                 <label class="form-label">Date de vente</label>
                 <input type="date" name="date_vente"
                     class="form-control @error('date_vente') is-invalid @enderror"
-                    value="{{ old('date_vente') }}">
+                    value="{{ old('date_vente', date('Y-m-d')) }}">
                 @error('date_vente')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
         </div>
 
+        {{-- Boutons --}}
         <div class="mt-3">
             <button type="submit" class="btn btn-success">Enregistrer</button>
             <a href="{{ route('ventes.index') }}" class="btn btn-secondary">Annuler</a>
@@ -109,7 +120,7 @@
     </form>
 </div>
 
-{{-- Script pour calcul automatique de la valeur totale --}}
+{{-- Script --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const produitSelect = document.getElementById('produit_id');
@@ -118,33 +129,29 @@
         const prixInput = document.getElementById('prix_vente_unitaire');
         const valeurTotale = document.getElementById('valeur_totale');
 
-        function calculerTotal() {
-            const quantite = parseFloat(quantiteInput.value) || 0;
-            const prix = parseFloat(prixInput.value) || 0;
-            const type = typeVente.value;
-            const unitsPerLot = parseInt(produitSelect.selectedOptions[0]?.dataset.unitsPerLot || 1);
+        function calculerPrixEtTotal() {
+            const selected = produitSelect.selectedOptions[0];
+            if (!selected) return;
 
-            let total = prix * quantite;
-            if (type === 'lot') {
-                total = prix * quantite; // prix déjà par lot
+            const type = typeVente.value;
+            const quantite = parseFloat(quantiteInput.value) || 0;
+
+            let prix = 0;
+            if (type === 'unite') {
+                prix = parseFloat(selected.dataset.sellerPrice || 0);
+            } else {
+                prix = parseFloat(selected.dataset.lotPrice || 0);
             }
 
-            valeurTotale.value = total.toFixed(2);
+            prixInput.value = prix.toFixed(2);
+            valeurTotale.value = (quantite * prix).toFixed(2);
         }
 
-        produitSelect.addEventListener('change', function() {
-            // remplir automatiquement le prix unitaire du produit sélectionné
-            const prix = produitSelect.selectedOptions[0]?.dataset.unitPrice || 0;
-            prixInput.value = prix;
-            calculerTotal();
-        });
+        produitSelect.addEventListener('change', calculerPrixEtTotal);
+        typeVente.addEventListener('change', calculerPrixEtTotal);
+        quantiteInput.addEventListener('input', calculerPrixEtTotal);
 
-        typeVente.addEventListener('change', calculerTotal);
-        quantiteInput.addEventListener('input', calculerTotal);
-        prixInput.addEventListener('input', calculerTotal);
-
-        // calcul initial
-        calculerTotal();
+        calculerPrixEtTotal();
     });
 </script>
 @endsection
