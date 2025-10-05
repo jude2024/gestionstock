@@ -103,7 +103,7 @@ class ProduitController extends Controller
             'lot_price'         => 'nullable|numeric|min:0',
             'units_per_lot'     => 'nullable|integer|min:1',
             'alert_seuil'       => 'nullable|integer|min:0',
-            'image_path'        => 'nullable|image|mimes:jpg,jpeg,png',
+            'image_path'        => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ]);
 
         $data = $request->except('image_path');
